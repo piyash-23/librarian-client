@@ -1,10 +1,27 @@
 import React from "react";
+import Logo from "../Logo/Logo";
+import UseAuth from "../../Hooks/UseAuth/UseAuth";
+import { Link } from "react-router";
 
 const Navbar = () => {
+  const { user } = UseAuth();
+  const links = (
+    <>
+      <li>
+        <a>Home</a>
+      </li>
+      <li>
+        <a>All Books</a>
+      </li>
+      <li>
+        <a>Be a librarian</a>
+      </li>
+    </>
+  );
   return (
     <div>
       <div>
-        <div className="navbar bg-base-100 shadow-sm">
+        <div className="navbar relative z-50 py-4 pb-5">
           <div className="navbar-start">
             <div className="dropdown">
               <div
@@ -30,54 +47,28 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex="-1"
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
               >
-                <li>
-                  <a>Item 1</a>
-                </li>
-                <li>
-                  <a>Parent</a>
-                  <ul className="p-2">
-                    <li>
-                      <a>Submenu 1</a>
-                    </li>
-                    <li>
-                      <a>Submenu 2</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a>Item 3</a>
-                </li>
+                {links}
               </ul>
             </div>
-            <a className="btn btn-ghost text-xl">daisyUI</a>
+            <Logo />
           </div>
           <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1">
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <details>
-                  <summary>Parent</summary>
-                  <ul className="p-2 bg-base-100 w-40 z-1">
-                    <li>
-                      <a>Submenu 1</a>
-                    </li>
-                    <li>
-                      <a>Submenu 2</a>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
+            <ul className="menu menu-horizontal px-1 text-white shadow-none">
+              {links}
             </ul>
           </div>
           <div className="navbar-end">
-            <a className="btn">Button</a>
+            {user ? (
+              <Link className="font-bold btn shadow-none text-white border-0 bg-transparent hover:bg-red-400 hover:text-gray-900">
+                Sign Out
+              </Link>
+            ) : (
+              <Link className="font-bold btn shadow-none text-white border-0 bg-transparent hover:bg-red-400 hover:text-gray-900">
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </div>
