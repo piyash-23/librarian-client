@@ -65,7 +65,10 @@ const Navbar = () => {
                 Sign Out
               </Link>
             ) : (
-              <Link className="font-bold btn shadow-none text-white border-0 bg-transparent hover:bg-red-400 hover:text-gray-900">
+              <Link
+                to={"/login"}
+                className="font-bold btn shadow-none text-white border-0 bg-transparent hover:bg-red-400 hover:text-gray-900"
+              >
                 Sign In
               </Link>
             )}
