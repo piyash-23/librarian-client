@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegEye } from "react-icons/fa";
 import { RiEyeCloseFill } from "react-icons/ri";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import UseAuth from "../../Hooks/UseAuth/UseAuth";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
+  const { setUser, signInWithMail, googleSign } = UseAuth();
   const {
     register,
     handleSubmit,
@@ -13,6 +18,50 @@ const Login = () => {
   } = useForm();
   const handleLogin = (data) => {
     console.log("form data:", data);
+    signInWithMail(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        navigate(location?.state || "/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        // console.log(errorCode, errorMessage);
+
+        if (errorCode || errorMessage) {
+          Swal.fire({
+            icon: "error",
+            title: errorCode,
+            text: "Wrong credentials",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+  };
+  const handleGoogle = () => {
+    googleSign()
+      .then((result) => {
+        const user = result.user;
+        navigate(location?.state || "/");
+        setUser(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        if (errorCode || errorMessage || email) {
+          Swal.fire({
+            icon: "error",
+            title: "SOmething Wrong",
+            text: "Wrong credentials",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
   };
   return (
     <>
@@ -39,16 +88,16 @@ const Login = () => {
               {/* USERNAME */}
               <div>
                 <input
-                  type="text"
-                  placeholder="User Name"
+                  type="email"
+                  placeholder="Your Email"
                   className="w-full px-4 py-3 rounded-lg text-gray-200 focus:outline-none"
-                  {...register("username", {
-                    required: "Username is required",
+                  {...register("email", {
+                    required: "email is required",
                   })}
                 />
-                {errors.username && (
+                {errors.email && (
                   <p className="text-gray-200 text-xs mt-1">
-                    {errors.username.message}
+                    {errors.email.message}
                   </p>
                 )}
               </div>
@@ -107,6 +156,7 @@ const Login = () => {
                 Or
               </p>
               <button
+                onClick={handleGoogle}
                 className="bg-[linear-gradient(#e9e9e9,#e9e9e9_50%,#fff)] group w-full h-16 cursor-pointer
                inline-flex transition-all duration-300 overflow-visible p-1 rounded-full"
               >

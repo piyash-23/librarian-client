@@ -11,7 +11,7 @@ const Router = createBrowserRouter([
   {
     path: "/",
     Component: MainLaout,
-    HydrateFallback: <FallbackEm></FallbackEm>,
+    hydrateFallbackElement: <FallbackEm></FallbackEm>,
     children: [
       {
         index: true,

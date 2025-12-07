@@ -2,9 +2,10 @@ import React from "react";
 import Logo from "../Logo/Logo";
 import UseAuth from "../../Hooks/UseAuth/UseAuth";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
-  const { user } = UseAuth();
+  const { user, logOut } = UseAuth();
   const links = (
     <>
       <li>
@@ -18,6 +19,21 @@ const Navbar = () => {
       </li>
     </>
   );
+  const handleSignOut = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Logged Out Succesful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        // some code
+      });
+  };
   return (
     <div>
       <div>
@@ -61,9 +77,36 @@ const Navbar = () => {
           </div>
           <div className="navbar-end">
             {user ? (
-              <Link className="font-bold btn shadow-none text-white border-0 bg-transparent hover:bg-red-400 hover:text-gray-900">
-                Sign Out
-              </Link>
+              <>
+                <div className="dropdown dropdown-end">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn btn-ghost btn-circle avatar"
+                  >
+                    <div className="w-10 rounded-full">
+                      <img
+                        alt="Tailwind CSS Navbar component"
+                        src={user.photoURL}
+                      />
+                    </div>
+                  </div>
+                  <ul
+                    tabIndex="-1"
+                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                  >
+                    <li>
+                      <a className="justify-between">{user?.displayName}</a>
+                    </li>
+                    <li>
+                      <a>{user?.email}</a>
+                    </li>
+                    <li>
+                      <button onClick={handleSignOut}>Logout</button>
+                    </li>
+                  </ul>
+                </div>
+              </>
             ) : (
               <Link
                 to={"/login"}

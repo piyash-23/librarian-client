@@ -2,19 +2,84 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegEye } from "react-icons/fa";
 import { RiEyeCloseFill } from "react-icons/ri";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import UseAuth from "../../Hooks/UseAuth/UseAuth";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { setUser, createWithMail, updateUserProfile, googleSign } = UseAuth();
   const [previewImage, setPreviewImage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const handleRegister = (data) => {
     console.log(data);
+    const photo = data.photo[0];
+    createWithMail(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+
+        // form data for photo
+        const formData = new FormData();
+        formData.append("image", photo);
+        const imgURL = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMG
+        }`;
+        axios.post(imgURL, formData).then((res) => {
+          const photoURL = res.data.data.url;
+          const updateInfo = {
+            displayName: data.name,
+            photoURL: photoURL,
+          };
+          updateUserProfile(updateInfo)
+            .then(() => {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your account has been registered",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          navigate(location?.state || "/");
+          setUser(user);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleGoogle = () => {
+    googleSign()
+      .then((result) => {
+        const user = result.user;
+
+        navigate(location?.state || "/");
+        setUser(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        if (errorCode || errorMessage || email) {
+          Swal.fire({
+            icon: "error",
+            title: "SOmething Wrong",
+            text: "Wrong credentials",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
   };
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -51,6 +116,7 @@ const Register = () => {
 
             <p className="text-center my-5">or</p>
             <button
+              onClick={handleGoogle}
               className="bg-[linear-gradient(#e9e9e9,#e9e9e9_50%,#fff)] group w-full h-16 cursor-pointer
                inline-flex transition-all duration-300 overflow-visible p-1 rounded-full"
             >
@@ -129,30 +195,13 @@ const Register = () => {
                   type="text"
                   placeholder="Full Name"
                   className="w-full px-4 py-3 focus:outline-none border-b"
-                  {...register("fullname", {
+                  {...register("name", {
                     required: "Full name is required",
                   })}
                 />
-                {errors.fullname && (
+                {errors.name && (
                   <p className="text-red-500 text-xs mt-1">
-                    {errors.fullname.message}
-                  </p>
-                )}
-              </div>
-
-              {/* USERNAME */}
-              <div>
-                <input
-                  type="text"
-                  placeholder="Username"
-                  className="w-full px-4 py-3 focus:outline-none border-b"
-                  {...register("username", {
-                    required: "Username is required",
-                  })}
-                />
-                {errors.username && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.username.message}
+                    {errors.name.message}
                   </p>
                 )}
               </div>
@@ -236,9 +285,14 @@ const Register = () => {
                 type="file"
                 accept="image/*"
                 className="file-input file-input-ghost focus:outline-none"
-                {...register("photo")}
+                {...register("photo", { required: "You must upload a photo" })}
                 onChange={handleImageUpload}
               />
+              {errors.photo && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.photo.message}
+                </p>
+              )}
               {/* TERMS */}
               <div className="flex items-center space-x-2 text-sm">
                 <input
@@ -260,7 +314,7 @@ const Register = () => {
               {/* SUBMIT BUTTON */}
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg cursor-pointer"
               >
                 Sign Up
               </button>
