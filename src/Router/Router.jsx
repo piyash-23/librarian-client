@@ -8,6 +8,9 @@ import Login from "../Pages/AuthPages/Login";
 import Register from "../Pages/AuthPages/Register";
 import BeSeller from "../Pages/Main/Seller/BeSeller";
 import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../Layouts/Dashboard/DashboardLayout";
+import PostBook from "../Pages/Dashboard Pages/PostBook";
+import HomeDashboard from "../Pages/Dashboard Pages/HomeDashboard/HomeDashboard";
 
 const Router = createBrowserRouter([
   // main layout
@@ -43,6 +46,25 @@ const Router = createBrowserRouter([
       {
         path: "register",
         Component: Register,
+      },
+    ],
+  },
+  // dashboard
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        Component: HomeDashboard,
+      },
+      {
+        path: "post-book",
+        Component: PostBook,
       },
     ],
   },

@@ -23,6 +23,13 @@ const Navbar = () => {
       <li>
         <NavLink to={"/be-a-librarian"}>Be a librarian</NavLink>
       </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to={"/dashboard"}>Dashboard</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   const handleSignOut = () => {
