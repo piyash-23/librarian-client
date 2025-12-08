@@ -49,7 +49,7 @@ const WhyUs = () => {
             {/* Content Section */}
             <div className="space-y-8">
               <div>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary mb-4">
                   Why Choose Librarian?
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-400">
@@ -65,7 +65,7 @@ const WhyUs = () => {
                     <BiCheckCircle className="w-6 h-6 text-green-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">
+                    <h3 className="text-xl sm:text-2xl font-semibold text-primary mb-2">
                       Eco-Friendly Packaging
                     </h3>
                     <p className="text-gray-400">
@@ -80,7 +80,7 @@ const WhyUs = () => {
                     <BiCheckCircle className="w-6 h-6 text-green-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">
+                    <h3 className="text-xl sm:text-2xl font-semibold text-primary mb-2">
                       Fast & Seamless Experience
                     </h3>
                     <p className="text-gray-400">
@@ -96,7 +96,7 @@ const WhyUs = () => {
                     <BiCheckCircle className="w-6 h-6 text-green-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">
+                    <h3 className="text-xl sm:text-2xl font-semibold text-primary mb-2">
                       Trusted by Readers
                     </h3>
                     <p className="text-gray-400">
@@ -110,7 +110,7 @@ const WhyUs = () => {
               <div>
                 <button
                   type="button"
-                  className="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold border-4 border-white group cursor-pointer"
+                  className="bg-primary text-center w-48 rounded-2xl h-14 relative text-secondary text-xl font-semibold border-4 border-primary group cursor-pointer"
                 >
                   <div className="bg-green-400 rounded-xl h-12 w-1/4 grid place-items-center absolute left-0 top-0 group-hover:w-full z-10 duration-500">
                     <svg

@@ -19,7 +19,7 @@ const Coverage = () => {
         <h2 className="text-4xl font-bold text-[#00b4d8]">
           We deliver books every in corner of Bangladesh
         </h2>
-        <p className="font-light my-3">See our locations</p>
+        <p className="text-gray my-3">See our locations</p>
         <div className="h-[600px] p-4 bg-[#161a1d] rounded-2xl">
           <MapContainer
             center={position}

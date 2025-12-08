@@ -6,8 +6,11 @@ import FallbackEm from "../Components/Fallback/FallbackEm";
 import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
 import Login from "../Pages/AuthPages/Login";
 import Register from "../Pages/AuthPages/Register";
+import BeSeller from "../Pages/Main/Seller/BeSeller";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
+  // main layout
   {
     path: "/",
     Component: MainLaout,
@@ -17,8 +20,17 @@ const Router = createBrowserRouter([
         index: true,
         Component: Home,
       },
+      {
+        path: "be-a-librarian",
+        element: (
+          <PrivateRoute>
+            <BeSeller></BeSeller>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
+  // auth layout
   {
     path: "/",
     Component: AuthLayout,

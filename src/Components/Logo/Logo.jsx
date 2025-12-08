@@ -8,7 +8,7 @@ const Logo = () => {
       <Link to={"/"}>
         <div className="flex justify-center items-center">
           <img className="w-[50px]" src={logo} alt="" />
-          <h1 className="font-bold text-[20px] text-white">Librarian</h1>
+          <h1 className="font-bold text-[20px] text-primary">Librarian</h1>
         </div>
       </Link>
     </>

@@ -18,7 +18,7 @@ const Genres = () => {
     <>
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
             Here is the best selling categories
           </h2>
           <p className="text-gray-600 mb-12">
@@ -30,11 +30,11 @@ const Genres = () => {
             {categories.map((cat, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center bg-white p-6 rounded-xl shadow-sm 
+                className="flex flex-col items-center bg-primary p-6 rounded-xl shadow-sm 
               hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer"
               >
                 <div className="text-4xl mb-3">{cat.icon}</div>
-                <h3 className="font-semibold text-gray-800 text-sm md:text-base">
+                <h3 className="font-semibold text-secondary text-sm md:text-base">
                   {cat.name}
                 </h3>
               </div>
