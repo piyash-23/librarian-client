@@ -7,6 +7,8 @@ import Logo from "../../Components/Logo/Logo";
 import { IoHome } from "react-icons/io5";
 import { ImBook } from "react-icons/im";
 import { MdDashboard } from "react-icons/md";
+import MyBooks from "../../Pages/Dashboard Pages/My Books/MyBooks";
+import { BiSolidUserBadge } from "react-icons/bi";
 
 const DashboardLayout = () => {
   const { user } = UseAuth();
@@ -40,6 +42,16 @@ const DashboardLayout = () => {
         >
           <ImBook className="text-lg" />
           <span className="is-drawer-close:hidden">Publish Book</span>
+        </Link>
+      </li>
+      <li>
+        <Link
+          to={"/dashboard/my-books"}
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="My Books"
+        >
+          <BiSolidUserBadge className="text-lg" />
+          <span className="is-drawer-close:hidden">My Books</span>
         </Link>
       </li>
     </>
@@ -109,6 +121,7 @@ const DashboardLayout = () => {
           <Outlet>
             <HomeDashboard />
             <PostBook />
+            <MyBooks />
           </Outlet>
         </div>
 
