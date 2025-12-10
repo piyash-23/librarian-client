@@ -12,14 +12,16 @@ const AllBooks = () => {
       return res.data;
     },
   });
-  console.log(allBooks);
+  //   console.log(allBooks);
   return (
     <>
       <div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {allBooks.map((book) => (
-            <BookCard key={book._id} book={book}></BookCard>
-          ))}
+        <div className="w-90 md:w-[100%] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {allBooks.map((book) => (
+              <BookCard key={book._id} book={book}></BookCard>
+            ))}
+          </div>
         </div>
       </div>
     </>

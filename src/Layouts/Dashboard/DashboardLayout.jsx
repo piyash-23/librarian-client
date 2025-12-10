@@ -10,6 +10,8 @@ import { MdDashboard } from "react-icons/md";
 import MyBooks from "../../Pages/Dashboard Pages/My Books/MyBooks";
 import { BiSolidUserBadge } from "react-icons/bi";
 import UpdateBook from "../../Pages/Dashboard Pages/Update Books/UpdateBook";
+import Approve from "../../Pages/Dashboard Pages/Approve Librarian/Approve";
+import { FcApprove } from "react-icons/fc";
 
 const DashboardLayout = () => {
   const { user } = UseAuth();
@@ -53,6 +55,16 @@ const DashboardLayout = () => {
         >
           <BiSolidUserBadge className="text-lg" />
           <span className="is-drawer-close:hidden">My Books</span>
+        </Link>
+      </li>
+      <li>
+        <Link
+          to={"/dashboard/approve"}
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="Approve Librarian"
+        >
+          <FcApprove className="text-lg" />
+          <span className="is-drawer-close:hidden">Approve Librarian</span>
         </Link>
       </li>
     </>
@@ -124,6 +136,7 @@ const DashboardLayout = () => {
             <PostBook />
             <MyBooks />
             <UpdateBook />
+            <Approve />
           </Outlet>
         </div>
 

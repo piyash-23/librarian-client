@@ -10,7 +10,7 @@ const Coverage = () => {
       .then((data) => {
         // console.log(data);
         setWarehouses([...data]);
-        console.log(warehouses);
+        // console.log(warehouses);
       });
   }, []);
   return (

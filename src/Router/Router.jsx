@@ -15,6 +15,8 @@ import MyBooks from "../Pages/Dashboard Pages/My Books/MyBooks";
 import UpdateBook from "../Pages/Dashboard Pages/Update Books/UpdateBook";
 import AllBooks from "../Pages/Main/All Books/AllBooks";
 import BookDetails from "../Pages/Main/Book Details/BookDetails";
+import Approve from "../Pages/Dashboard Pages/Approve Librarian/Approve";
+import MyCart from "../Pages/Main/My Cart/MyCart";
 
 const Router = createBrowserRouter([
   // main layout
@@ -43,6 +45,14 @@ const Router = createBrowserRouter([
         path: "book-details/:id",
         hydrateFallbackElement: <FallbackEm></FallbackEm>,
         element: <BookDetails></BookDetails>,
+      },
+      {
+        path: "cart",
+        element: (
+          <PrivateRoute>
+            <MyCart />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -87,6 +97,10 @@ const Router = createBrowserRouter([
       {
         path: "update-book/:id",
         Component: UpdateBook,
+      },
+      {
+        path: "approve",
+        Component: Approve,
       },
     ],
   },

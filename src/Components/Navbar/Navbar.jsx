@@ -147,6 +147,9 @@ const Navbar = () => {
                       <a>{user?.email}</a>
                     </li>
                     <li>
+                      <Link to={"/cart"}>Go to cart</Link>
+                    </li>
+                    <li>
                       <button onClick={handleSignOut}>Logout</button>
                     </li>
                   </ul>

@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxios from "../../../Hooks/UseAxios/useAxios";
 import { BsArrowRight } from "react-icons/bs";
 import { LuBookMarked } from "react-icons/lu";
 import { BiDownload, BiShare } from "react-icons/bi";
+import UseAuth from "../../../Hooks/UseAuth/UseAuth";
+import Swal from "sweetalert2";
 
 const BookDetails = () => {
   const { id } = useParams();
+  const { user } = UseAuth();
+  const navigate = useNavigate();
   const axiosSecure = useAxios();
   const { data: bookData = {} } = useQuery({
     queryKey: ["book"],
@@ -18,7 +22,58 @@ const BookDetails = () => {
   });
   const { coverImage, title, description, price, author, language, binding } =
     bookData;
-  console.log(bookData);
+  //   console.log(bookData);
+  const addToCart = () => {
+    if (!user) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You must log in before place an order",
+        footer: '<a href="/login">Log in now</a>',
+      });
+      return;
+    }
+    const toAdd = {
+      price,
+      title,
+      email: user.email,
+      coverImage,
+      author,
+      binding,
+    };
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Add to cart",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.post("/carts", toAdd).then((res) => {
+            const data = res.data;
+            if (data.message === "added to cart") {
+              swalWithBootstrapButtons.fire({
+                title: "Added!",
+                text: "Your book has been added to cart.",
+                icon: "success",
+              });
+            }
+          });
+        }
+      });
+  };
   return (
     <>
       <div>
@@ -34,6 +89,7 @@ const BookDetails = () => {
                     className="w-64 md:w-80 shadow-2xl rounded-sm"
                   />
                 </div>
+                <h1 className="text-2xl font-extrabold">{price} taka</h1>
               </div>
 
               {/* Right Column - Book Details */}
@@ -52,7 +108,10 @@ const BookDetails = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3 mb-8">
-                  <button className="bg-gray-900 text-white px-6 py-3 rounded-full flex items-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer">
+                  <button
+                    onClick={addToCart}
+                    className="bg-gray-900 text-white px-6 py-3 rounded-full flex items-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer"
+                  >
                     Add to cart
                     <BsArrowRight size={18} />
                   </button>
