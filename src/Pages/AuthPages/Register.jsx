@@ -6,10 +6,12 @@ import { Link, useLocation, useNavigate } from "react-router";
 import UseAuth from "../../Hooks/UseAuth/UseAuth";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxios from "../../Hooks/UseAxios/useAxios";
 
 const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosSecure = useAxios();
   const { setUser, createWithMail, updateUserProfile, googleSign } = UseAuth();
   const [previewImage, setPreviewImage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +35,19 @@ const Register = () => {
         }`;
         axios.post(imgURL, formData).then((res) => {
           const photoURL = res.data.data.url;
+          const userInfo = {
+            email: data.email,
+            displayName: data.name,
+            photoURL: photoURL,
+          };
+          axiosSecure
+            .post("/user", userInfo)
+            .then((res) => {
+              if (res.data.insertedId) {
+                console.log("user created");
+              }
+            })
+            .catch((error) => console.log(error));
           const updateInfo = {
             displayName: data.name,
             photoURL: photoURL,
@@ -62,7 +77,22 @@ const Register = () => {
     googleSign()
       .then((result) => {
         const user = result.user;
-
+        const userInfo = {
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        };
+        axiosSecure.post("/user", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              icon: "success",
+              title: `You are a user ${user.displayName}`,
+              text: "Welcome to librarian",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
         navigate(location?.state || "/");
         setUser(user);
       })

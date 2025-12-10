@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import graph from "../../../assets/graph.png";
 import { FcDataSheet } from "react-icons/fc";
 import { FaEnvelopeOpenText } from "react-icons/fa";
@@ -6,17 +6,48 @@ import { FaMagnifyingGlassChart } from "react-icons/fa6";
 import { BiSolidCoinStack } from "react-icons/bi";
 import UseAuth from "../../../Hooks/UseAuth/UseAuth";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import useAxios from "../../../Hooks/UseAxios/useAxios";
+import Swal from "sweetalert2";
 
 const BeSeller = () => {
   const { user } = UseAuth();
+  const axiosSecure = useAxios();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const afterSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
+    axiosSecure
+      .post("/librarian", data)
+      .then((res) => {
+        const data = res.data;
+        // console.log(res.data);
+        if (data.message === "data is already axisted") {
+          Swal.fire({
+            title: "You have already applied",
+            text: "Please be patient. We have got you application",
+            icon: "error",
+          });
+          return;
+        }
+        if (data.message === "librarian posted") {
+          Swal.fire({
+            title: "Succesfully Applied",
+            text: "Your application is posted. Wait some time until we check your information",
+            icon: "success",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          title: "Something went wrong",
+          text: "We will be back in some time",
+          icon: "error",
+        });
+      });
   };
   return (
     <>

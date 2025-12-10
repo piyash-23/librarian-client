@@ -4,6 +4,7 @@ import Home from "../../Pages/Main/Home/Home";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import BeSeller from "../../Pages/Main/Seller/BeSeller";
+import AllBooks from "../../Pages/Main/All Books/AllBooks";
 
 const MainLaout = () => {
   return (
@@ -13,6 +14,7 @@ const MainLaout = () => {
         <Outlet>
           <Home></Home>
           <BeSeller />
+          <AllBooks />
         </Outlet>
         <Footer />
       </div>

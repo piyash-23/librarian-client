@@ -4,6 +4,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Link } from "react-router";
 
 const HomeSwiper = () => {
   return (
@@ -27,12 +28,18 @@ const HomeSwiper = () => {
                   great prices, and personalized recommendations.
                 </p>
                 <div className="font-bold text-white">
-                  <button className="btn bg-transparent text-cyan-300 shadow-none mx-3 hover:bg-cyan-300 hover:text-black">
+                  <Link
+                    to={"/all-books"}
+                    className="btn bg-transparent text-cyan-300 shadow-none mx-3 hover:bg-cyan-300 hover:text-black"
+                  >
                     Browse Books
-                  </button>
-                  <button className="btn bg-transparent text-cyan-300 shadow-none mx-3 hover:bg-cyan-300 hover:text-black">
+                  </Link>
+                  <Link
+                    to={"/be-a-librarian"}
+                    className="btn bg-transparent text-cyan-300 shadow-none mx-3 hover:bg-cyan-300 hover:text-black"
+                  >
                     Be a Librarian
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -48,12 +55,18 @@ const HomeSwiper = () => {
                   unforgettable characters.
                 </p>
                 <div className="font-bold text-white">
-                  <button className="btn bg-blue-100 text-blue-800 px-6 py-3 rounded-md hover:bg-blue-200 transition">
+                  <Link
+                    to={"/all-books"}
+                    className="btn bg-blue-100 text-blue-800 px-6 py-3 rounded-md hover:bg-blue-200 transition"
+                  >
                     Browse Books
-                  </button>
-                  <button className="btn bg-transparent text-cyan-300 shadow-none mx-3 hover:bg-cyan-300 hover:text-black">
+                  </Link>
+                  <Link
+                    to={"/be-a-librarian"}
+                    className="btn bg-transparent text-cyan-300 shadow-none mx-3 hover:bg-cyan-300 hover:text-black"
+                  >
                     Be a Librarian
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

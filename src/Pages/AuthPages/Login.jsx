@@ -5,10 +5,12 @@ import { RiEyeCloseFill } from "react-icons/ri";
 import { Link, useLocation, useNavigate } from "react-router";
 import UseAuth from "../../Hooks/UseAuth/UseAuth";
 import Swal from "sweetalert2";
+import useAxios from "../../Hooks/UseAxios/useAxios";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxios();
   const [showPassword, setShowPassword] = useState(false);
   const { setUser, signInWithMail, googleSign } = UseAuth();
   const {
@@ -17,7 +19,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const handleLogin = (data) => {
-    console.log("form data:", data);
+    // console.log("form data:", data);
     signInWithMail(data.email, data.password)
       .then((result) => {
         const user = result.user;
@@ -45,6 +47,22 @@ const Login = () => {
     googleSign()
       .then((result) => {
         const user = result.user;
+        const userInfo = {
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        };
+        axiosSecure.post("/user", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              icon: "success",
+              title: `You are a user ${user.displayName}`,
+              text: "Welcome to librarian",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
         navigate(location?.state || "/");
         setUser(user);
       })

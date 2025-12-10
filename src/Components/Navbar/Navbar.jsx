@@ -18,7 +18,7 @@ const Navbar = () => {
         <NavLink>Home</NavLink>
       </li>
       <li>
-        <a>All Books</a>
+        <NavLink to={"/all-books"}>All Books</NavLink>
       </li>
       <li>
         <NavLink to={"/be-a-librarian"}>Be a librarian</NavLink>
@@ -33,19 +33,15 @@ const Navbar = () => {
     </>
   );
   const handleSignOut = () => {
-    logOut()
-      .then(() => {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Logged Out Succesful",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      })
-      .catch((error) => {
-        // some code
+    logOut().then(() => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Logged Out Succesful",
+        showConfirmButton: false,
+        timer: 1000,
       });
+    });
   };
   return (
     <div>

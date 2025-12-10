@@ -13,6 +13,8 @@ import PostBook from "../Pages/Dashboard Pages/PostBook";
 import HomeDashboard from "../Pages/Dashboard Pages/HomeDashboard/HomeDashboard";
 import MyBooks from "../Pages/Dashboard Pages/My Books/MyBooks";
 import UpdateBook from "../Pages/Dashboard Pages/Update Books/UpdateBook";
+import AllBooks from "../Pages/Main/All Books/AllBooks";
+import BookDetails from "../Pages/Main/Book Details/BookDetails";
 
 const Router = createBrowserRouter([
   // main layout
@@ -32,6 +34,15 @@ const Router = createBrowserRouter([
             <BeSeller></BeSeller>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "all-books",
+        Component: AllBooks,
+      },
+      {
+        path: "book-details/:id",
+        hydrateFallbackElement: <FallbackEm></FallbackEm>,
+        element: <BookDetails></BookDetails>,
       },
     ],
   },
@@ -59,6 +70,7 @@ const Router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
+    hydrateFallbackElement: <FallbackEm />,
     children: [
       {
         index: true,
