@@ -12,6 +12,7 @@ import DashboardLayout from "../Layouts/Dashboard/DashboardLayout";
 import PostBook from "../Pages/Dashboard Pages/PostBook";
 import HomeDashboard from "../Pages/Dashboard Pages/HomeDashboard/HomeDashboard";
 import MyBooks from "../Pages/Dashboard Pages/My Books/MyBooks";
+import UpdateBook from "../Pages/Dashboard Pages/Update Books/UpdateBook";
 
 const Router = createBrowserRouter([
   // main layout
@@ -70,6 +71,10 @@ const Router = createBrowserRouter([
       {
         path: "my-books",
         Component: MyBooks,
+      },
+      {
+        path: "update-book/:id",
+        Component: UpdateBook,
       },
     ],
   },

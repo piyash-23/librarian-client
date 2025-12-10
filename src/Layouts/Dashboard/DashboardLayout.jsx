@@ -9,6 +9,7 @@ import { ImBook } from "react-icons/im";
 import { MdDashboard } from "react-icons/md";
 import MyBooks from "../../Pages/Dashboard Pages/My Books/MyBooks";
 import { BiSolidUserBadge } from "react-icons/bi";
+import UpdateBook from "../../Pages/Dashboard Pages/Update Books/UpdateBook";
 
 const DashboardLayout = () => {
   const { user } = UseAuth();
@@ -122,6 +123,7 @@ const DashboardLayout = () => {
             <HomeDashboard />
             <PostBook />
             <MyBooks />
+            <UpdateBook />
           </Outlet>
         </div>
 
