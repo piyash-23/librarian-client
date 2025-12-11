@@ -20,8 +20,16 @@ const BookDetails = () => {
       return res.data;
     },
   });
-  const { coverImage, title, description, price, author, language, binding } =
-    bookData;
+  const {
+    coverImage,
+    title,
+    description,
+    price,
+    author,
+    language,
+    binding,
+    sellerEmail,
+  } = bookData;
   //   console.log(bookData);
   const addToCart = () => {
     if (!user) {
@@ -36,7 +44,8 @@ const BookDetails = () => {
     const toAdd = {
       price,
       title,
-      email: user.email,
+      sellerEmail,
+      buyerEmail: user.email,
       coverImage,
       author,
       binding,

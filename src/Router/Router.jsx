@@ -17,6 +17,10 @@ import AllBooks from "../Pages/Main/All Books/AllBooks";
 import BookDetails from "../Pages/Main/Book Details/BookDetails";
 import Approve from "../Pages/Dashboard Pages/Approve Librarian/Approve";
 import MyCart from "../Pages/Main/My Cart/MyCart";
+import PaymentSuccess from "../Pages/Dashboard Pages/Payment/PaymentSuccess";
+import PaymentCancel from "../Pages/Dashboard Pages/Payment/PaymentCancel";
+import UserPayHistory from "../Pages/Main/User Pay History/UserPayHistory";
+import MyOrders from "../Pages/Dashboard Pages/My Orders/MyOrders";
 
 const Router = createBrowserRouter([
   // main layout
@@ -51,6 +55,22 @@ const Router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyCart />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-canceled",
+        Component: PaymentCancel,
+      },
+      {
+        path: "user-payment",
+        element: (
+          <PrivateRoute>
+            <UserPayHistory></UserPayHistory>
           </PrivateRoute>
         ),
       },
@@ -98,9 +118,14 @@ const Router = createBrowserRouter([
         path: "update-book/:id",
         Component: UpdateBook,
       },
+
       {
         path: "approve",
         Component: Approve,
+      },
+      {
+        path: "my-orders",
+        Component: MyOrders,
       },
     ],
   },

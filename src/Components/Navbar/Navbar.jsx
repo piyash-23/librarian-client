@@ -150,6 +150,9 @@ const Navbar = () => {
                       <Link to={"/cart"}>Go to cart</Link>
                     </li>
                     <li>
+                      <Link to={"/user-payment"}>Payment History</Link>
+                    </li>
+                    <li>
                       <button onClick={handleSignOut}>Logout</button>
                     </li>
                   </ul>

@@ -12,6 +12,10 @@ import { BiSolidUserBadge } from "react-icons/bi";
 import UpdateBook from "../../Pages/Dashboard Pages/Update Books/UpdateBook";
 import Approve from "../../Pages/Dashboard Pages/Approve Librarian/Approve";
 import { FcApprove } from "react-icons/fc";
+import PaymentSuccess from "../../Pages/Dashboard Pages/Payment/PaymentSuccess";
+import PaymentCancel from "../../Pages/Dashboard Pages/Payment/PaymentCancel";
+import MyOrders from "../../Pages/Dashboard Pages/My Orders/MyOrders";
+import { RiEBike2Fill } from "react-icons/ri";
 
 const DashboardLayout = () => {
   const { user } = UseAuth();
@@ -65,6 +69,16 @@ const DashboardLayout = () => {
         >
           <FcApprove className="text-lg" />
           <span className="is-drawer-close:hidden">Approve Librarian</span>
+        </Link>
+      </li>
+      <li>
+        <Link
+          to={"/dashboard/my-orders"}
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="My Orders"
+        >
+          <RiEBike2Fill className="text-lg" />
+          <span className="is-drawer-close:hidden">My Orders</span>
         </Link>
       </li>
     </>
@@ -137,6 +151,7 @@ const DashboardLayout = () => {
             <MyBooks />
             <UpdateBook />
             <Approve />
+            <MyOrders />
           </Outlet>
         </div>
 
