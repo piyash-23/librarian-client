@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const UserPayHistory = () => {
   const { user } = UseAuth();
   const axiosSecure = useAxios();
-  const { refetch, data: myPayments = [] } = useQuery({
+  const { data: myPayments = [] } = useQuery({
     queryKey: ["myPayments", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/payments?buyerEmail=${user?.email}`);
@@ -21,7 +21,7 @@ const UserPayHistory = () => {
             Yout Payment History
           </h2>
         </div>
-        <div>
+        <div className="my-4">
           <div className="overflow-x-auto">
             <table className="table table-zebra">
               {/* head */}
@@ -43,7 +43,11 @@ const UserPayHistory = () => {
                     <td>{payment.bookTitle}</td>
                     <td>{payment.price}</td>
                     <td>{payment.transactionId}</td>
-                    <td>{payment.paymentStatus}</td>
+                    <td>
+                      <h2 className="px-3 py-2 inline-block rounded-lg font-bold text-white bg-green-500">
+                        {payment.paymentStatus}
+                      </h2>
+                    </td>
                     <td>{payment.sellerEmail}</td>
                   </tr>
                 ))}

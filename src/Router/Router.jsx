@@ -21,6 +21,7 @@ import PaymentSuccess from "../Pages/Dashboard Pages/Payment/PaymentSuccess";
 import PaymentCancel from "../Pages/Dashboard Pages/Payment/PaymentCancel";
 import UserPayHistory from "../Pages/Main/User Pay History/UserPayHistory";
 import MyOrders from "../Pages/Dashboard Pages/My Orders/MyOrders";
+import LibPayHistory from "../Pages/Dashboard Pages/Librarian Payment History/LibPayHistory";
 
 const Router = createBrowserRouter([
   // main layout
@@ -126,6 +127,10 @@ const Router = createBrowserRouter([
       {
         path: "my-orders",
         Component: MyOrders,
+      },
+      {
+        path: "lib-payments",
+        Component: LibPayHistory,
       },
     ],
   },

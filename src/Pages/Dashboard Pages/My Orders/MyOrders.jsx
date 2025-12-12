@@ -89,8 +89,28 @@ const MyOrders = () => {
                     <td>{order.title}</td>
                     <td>{order.buyerEmail}</td>
                     <td>{order.price} taka</td>
-                    <td>{order.paymentStatus}</td>
-                    <td>{order.orderStatus}</td>
+                    <td>
+                      <h2
+                        className={`${
+                          order.paymentStatus === "paid"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        } px-3 py-2 inline-block rounded-lg font-bold text-white`}
+                      >
+                        {order.paymentStatus}
+                      </h2>
+                    </td>
+                    <td>
+                      <h2
+                        className={`${
+                          order.orderStatus === "shipped"
+                            ? "bg-green-600"
+                            : "bg-red-600"
+                        } font-bold px-3 py-2 inline-block rounded-lg text-white`}
+                      >
+                        {order.orderStatus}
+                      </h2>
+                    </td>
                     <td>
                       <button
                         onClick={() => handleShipped(order._id)}

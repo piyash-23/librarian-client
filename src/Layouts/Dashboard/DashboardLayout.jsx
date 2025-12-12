@@ -6,7 +6,7 @@ import UseAuth from "../../Hooks/UseAuth/UseAuth";
 import Logo from "../../Components/Logo/Logo";
 import { IoHome } from "react-icons/io5";
 import { ImBook } from "react-icons/im";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdPayment } from "react-icons/md";
 import MyBooks from "../../Pages/Dashboard Pages/My Books/MyBooks";
 import { BiSolidUserBadge } from "react-icons/bi";
 import UpdateBook from "../../Pages/Dashboard Pages/Update Books/UpdateBook";
@@ -16,6 +16,7 @@ import PaymentSuccess from "../../Pages/Dashboard Pages/Payment/PaymentSuccess";
 import PaymentCancel from "../../Pages/Dashboard Pages/Payment/PaymentCancel";
 import MyOrders from "../../Pages/Dashboard Pages/My Orders/MyOrders";
 import { RiEBike2Fill } from "react-icons/ri";
+import LibPayHistory from "../../Pages/Dashboard Pages/Librarian Payment History/LibPayHistory";
 
 const DashboardLayout = () => {
   const { user } = UseAuth();
@@ -79,6 +80,16 @@ const DashboardLayout = () => {
         >
           <RiEBike2Fill className="text-lg" />
           <span className="is-drawer-close:hidden">My Orders</span>
+        </Link>
+      </li>
+      <li>
+        <Link
+          to={"/dashboard/lib-payments"}
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="My Payments"
+        >
+          <MdPayment className="text-lg" />
+          <span className="is-drawer-close:hidden">My Payments</span>
         </Link>
       </li>
     </>
@@ -152,6 +163,7 @@ const DashboardLayout = () => {
             <UpdateBook />
             <Approve />
             <MyOrders />
+            <LibPayHistory />
           </Outlet>
         </div>
 
