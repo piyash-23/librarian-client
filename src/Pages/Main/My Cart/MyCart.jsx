@@ -66,8 +66,10 @@ const MyCart = () => {
                     <th></th>
                     <th>Book</th>
                     <th>Author</th>
+                    <th>Seller</th>
                     <th>Price</th>
                     <th>Payment Status</th>
+                    <th>Order Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -78,6 +80,7 @@ const MyCart = () => {
                       <th>{i + 1}</th>
                       <td>{cart.title}</td>
                       <td>{cart.author}</td>
+                      <td>{cart.sellerEmail}</td>
                       <td>{cart.price} taka</td>
                       <td>
                         {cart.paymentStatus === "unpaid" ? (
@@ -93,6 +96,7 @@ const MyCart = () => {
                           </p>
                         )}
                       </td>
+                      <td>{cart.orderStatus}</td>
                       <td>
                         <button
                           onClick={() => deleteCart(cart._id)}

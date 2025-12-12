@@ -2,6 +2,9 @@ import React from "react";
 import UseAuth from "../../../Hooks/UseAuth/UseAuth";
 import useAxios from "../../../Hooks/UseAxios/useAxios";
 import { useQuery } from "@tanstack/react-query";
+import { FaShippingFast } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 const MyOrders = () => {
   const { user } = UseAuth();
@@ -13,6 +16,51 @@ const MyOrders = () => {
       return res.data;
     },
   });
+  const handleShipped = (order) => {
+    const updateInfo = {
+      orderStatus: "shipped",
+    };
+    axiosSecure
+      .patch(`/carts/${order}`, updateInfo)
+      .then((res) => {
+        const data = res.data;
+        if (data.message === "shipped") {
+          Swal.fire({
+            title: "Shipped",
+            icon: "success",
+            draggable: true,
+          });
+          refetch();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const cartDelete = (order) => {
+    Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/carts/${order}`).then((res) => {
+          const data = res.data;
+          if (data.message === "deleted cart") {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your cart has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <>
       <div>
@@ -43,6 +91,23 @@ const MyOrders = () => {
                     <td>{order.price} taka</td>
                     <td>{order.paymentStatus}</td>
                     <td>{order.orderStatus}</td>
+                    <td>
+                      <button
+                        onClick={() => handleShipped(order._id)}
+                        className="btn btn-xs mx-1.5 tooltip"
+                        data-tip="Approve Shipment"
+                      >
+                        <FaShippingFast />
+                      </button>
+                      <button
+                        onClick={() => cartDelete(order._id)}
+                        disabled={order.paymentStatus === "paid" ? true : false}
+                        className="btn btn-xs tooltip"
+                        data-tip="delete-order"
+                      >
+                        <FaRegTrashCan />
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 {/* row 1 */}
