@@ -17,8 +17,12 @@ import PaymentCancel from "../../Pages/Dashboard Pages/Payment/PaymentCancel";
 import MyOrders from "../../Pages/Dashboard Pages/My Orders/MyOrders";
 import { RiEBike2Fill } from "react-icons/ri";
 import LibPayHistory from "../../Pages/Dashboard Pages/Librarian Payment History/LibPayHistory";
+import ManageUser from "../../Pages/Dashboard Pages/User Management/ManageUser";
+import { FaUser } from "react-icons/fa";
+import useRole from "../../Hooks/UseRole/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
   const { user } = UseAuth();
   const links = (
     <>
@@ -62,16 +66,7 @@ const DashboardLayout = () => {
           <span className="is-drawer-close:hidden">My Books</span>
         </Link>
       </li>
-      <li>
-        <Link
-          to={"/dashboard/approve"}
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="Approve Librarian"
-        >
-          <FcApprove className="text-lg" />
-          <span className="is-drawer-close:hidden">Approve Librarian</span>
-        </Link>
-      </li>
+
       <li>
         <Link
           to={"/dashboard/my-orders"}
@@ -92,6 +87,32 @@ const DashboardLayout = () => {
           <span className="is-drawer-close:hidden">My Payments</span>
         </Link>
       </li>
+      {role === "admin" && (
+        <>
+          {/* manage users */}
+          <li>
+            <Link
+              to={"/dashboard/manage-users"}
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              data-tip="Manage Users"
+            >
+              <FaUser className="text-lg" />
+              <span className="is-drawer-close:hidden">Manage Users</span>
+            </Link>
+          </li>
+          {/* approvev librarian */}
+          <li>
+            <Link
+              to={"/dashboard/approve"}
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              data-tip="Approve Librarian"
+            >
+              <FcApprove className="text-lg" />
+              <span className="is-drawer-close:hidden">Approve Librarian</span>
+            </Link>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -164,6 +185,7 @@ const DashboardLayout = () => {
             <Approve />
             <MyOrders />
             <LibPayHistory />
+            <ManageUser />
           </Outlet>
         </div>
 

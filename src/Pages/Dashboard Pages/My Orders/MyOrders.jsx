@@ -2,7 +2,7 @@ import React from "react";
 import UseAuth from "../../../Hooks/UseAuth/UseAuth";
 import useAxios from "../../../Hooks/UseAxios/useAxios";
 import { useQuery } from "@tanstack/react-query";
-import { FaShippingFast } from "react-icons/fa";
+import { FaShippingFast, FaTruckLoading } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import Swal from "sweetalert2";
 
@@ -19,6 +19,27 @@ const MyOrders = () => {
   const handleShipped = (order) => {
     const updateInfo = {
       orderStatus: "shipped",
+    };
+    axiosSecure
+      .patch(`/carts/${order}`, updateInfo)
+      .then((res) => {
+        const data = res.data;
+        if (data.message === "shipped") {
+          Swal.fire({
+            title: "Shipped",
+            icon: "success",
+            draggable: true,
+          });
+          refetch();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleDelivered = (order) => {
+    const updateInfo = {
+      orderStatus: "Delivered",
     };
     axiosSecure
       .patch(`/carts/${order}`, updateInfo)
@@ -95,7 +116,7 @@ const MyOrders = () => {
                           order.paymentStatus === "paid"
                             ? "bg-green-500"
                             : "bg-red-500"
-                        } px-3 py-2 inline-block rounded-lg font-bold text-white`}
+                        } px-3 py-2 inline-block rounded-lg font-bold text-white text-xs`}
                       >
                         {order.paymentStatus}
                       </h2>
@@ -106,7 +127,9 @@ const MyOrders = () => {
                           order.orderStatus === "shipped"
                             ? "bg-green-600"
                             : "bg-red-600"
-                        } font-bold px-3 py-2 inline-block rounded-lg text-white`}
+                        } ${
+                          order.orderStatus === "Delivered" && "bg-yellow-400"
+                        } font-bold px-3 py-2 inline-block rounded-lg text-white text-xs`}
                       >
                         {order.orderStatus}
                       </h2>
@@ -122,10 +145,18 @@ const MyOrders = () => {
                       <button
                         onClick={() => cartDelete(order._id)}
                         disabled={order.paymentStatus === "paid" ? true : false}
-                        className="btn btn-xs tooltip"
+                        className="btn btn-xs tooltip mx-1.5"
                         data-tip="delete-order"
                       >
                         <FaRegTrashCan />
+                      </button>
+                      <button
+                        onClick={() => handleDelivered(order._id)}
+                        disabled={order.paymentStatus === "paid" ? false : true}
+                        className="btn btn-xs tooltip"
+                        data-tip="Delivered"
+                      >
+                        <FaTruckLoading />
                       </button>
                     </td>
                   </tr>

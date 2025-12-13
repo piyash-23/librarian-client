@@ -62,6 +62,7 @@ const MyBooks = () => {
                 <th>Seller Email</th>
                 <th>Price</th>
                 <th>Book Genre</th>
+                <th>Stock</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -85,16 +86,19 @@ const MyBooks = () => {
                   <td>{book.sellerEmail}</td>
                   <td>{book.price} taka</td>
                   <td>{book.category}</td>
+                  <td>{book.stock}</td>
                   <th>
                     <button
                       onClick={() => handleDelete(book._id)}
-                      className="btn btn-ghost btn-md"
+                      className="btn btn-ghost btn-md tooltip"
+                      data-tip="Delete Book"
                     >
                       <AiFillDelete />
                     </button>
                     <Link
                       to={`/dashboard/update-book/${book._id}`}
-                      className="btn btn-ghost btn-md"
+                      className="btn btn-ghost btn-md tooltip"
+                      data-tip="Edit Book"
                     >
                       <FaEdit />
                     </Link>
