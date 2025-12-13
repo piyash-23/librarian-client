@@ -4,7 +4,7 @@ import HomeDashboard from "../../Pages/Dashboard Pages/HomeDashboard/HomeDashboa
 import PostBook from "../../Pages/Dashboard Pages/PostBook";
 import UseAuth from "../../Hooks/UseAuth/UseAuth";
 import Logo from "../../Components/Logo/Logo";
-import { IoHome } from "react-icons/io5";
+import { IoBookSharp, IoHome } from "react-icons/io5";
 import { ImBook } from "react-icons/im";
 import { MdDashboard, MdPayment } from "react-icons/md";
 import MyBooks from "../../Pages/Dashboard Pages/My Books/MyBooks";
@@ -20,6 +20,7 @@ import LibPayHistory from "../../Pages/Dashboard Pages/Librarian Payment History
 import ManageUser from "../../Pages/Dashboard Pages/User Management/ManageUser";
 import { FaUser } from "react-icons/fa";
 import useRole from "../../Hooks/UseRole/useRole";
+import ManageAllBooks from "../../Pages/Dashboard Pages/Manage All Books/ManageAllBooks";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -111,6 +112,16 @@ const DashboardLayout = () => {
               <span className="is-drawer-close:hidden">Approve Librarian</span>
             </Link>
           </li>
+          <li>
+            <Link
+              to={"/dashboard/manage-books"}
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              data-tip="Manage Books"
+            >
+              <IoBookSharp className="text-lg" />
+              <span className="is-drawer-close:hidden">Manage Books</span>
+            </Link>
+          </li>
         </>
       )}
     </>
@@ -186,6 +197,7 @@ const DashboardLayout = () => {
             <MyOrders />
             <LibPayHistory />
             <ManageUser />
+            <ManageAllBooks />
           </Outlet>
         </div>
 

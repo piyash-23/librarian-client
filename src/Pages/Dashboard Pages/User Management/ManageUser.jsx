@@ -37,17 +37,19 @@ const ManageUser = () => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          axiosSecure.patch(`/user/${data._id}`, updateInfo).then((res) => {
-            const data = res.data;
-            if (data.message === "updated") {
-              refetch();
-              swalWithBootstrapButtons.fire({
-                title: "Made",
-                text: `${user.displayName} is an admin now`,
-                icon: "success",
-              });
-            }
-          });
+          axiosSecure
+            .patch(`/user/${data._id}/role`, updateInfo)
+            .then((res) => {
+              const data = res.data;
+              if (data.message === "updated") {
+                refetch();
+                swalWithBootstrapButtons.fire({
+                  title: "Made",
+                  text: `${user.displayName} is an admin now`,
+                  icon: "success",
+                });
+              }
+            });
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel

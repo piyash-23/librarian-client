@@ -22,7 +22,7 @@ const FeaturedBooks = () => {
             Our latest book by publishers
           </h2>
           <div className="w-96 md:w-[100%] mx-auto">
-            <div className="mx-auto flex justify-between items-center flex-wrap gap-4 ">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {toFeature.map((book) => (
                 <BookCard key={book._id} book={book}></BookCard>
               ))}

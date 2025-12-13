@@ -23,6 +23,9 @@ import UserPayHistory from "../Pages/Main/User Pay History/UserPayHistory";
 import MyOrders from "../Pages/Dashboard Pages/My Orders/MyOrders";
 import LibPayHistory from "../Pages/Dashboard Pages/Librarian Payment History/LibPayHistory";
 import ManageUser from "../Pages/Dashboard Pages/User Management/ManageUser";
+import ManageAllBooks from "../Pages/Dashboard Pages/Manage All Books/ManageAllBooks";
+import AdminRoute from "./AdminRoute";
+import LibAdmiRoute from "./LibAdmiRoute";
 
 const Router = createBrowserRouter([
   // main layout
@@ -98,9 +101,9 @@ const Router = createBrowserRouter([
   {
     path: "dashboard",
     element: (
-      <PrivateRoute>
+      <LibAdmiRoute>
         <DashboardLayout></DashboardLayout>
-      </PrivateRoute>
+      </LibAdmiRoute>
     ),
     hydrateFallbackElement: <FallbackEm />,
     children: [
@@ -136,6 +139,15 @@ const Router = createBrowserRouter([
       {
         path: "manage-users",
         Component: ManageUser,
+      },
+      {
+        path: "manage-books",
+        element: (
+          <AdminRoute>
+            <ManageAllBooks></ManageAllBooks>
+          </AdminRoute>
+        ),
+        // Component: ManageAllBooks,
       },
     ],
   },

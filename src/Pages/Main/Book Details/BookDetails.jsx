@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import useAxios from "../../../Hooks/UseAxios/useAxios";
 import { BsArrowRight } from "react-icons/bs";
 import { LuBookMarked } from "react-icons/lu";
 import { BiDownload, BiShare } from "react-icons/bi";
 import UseAuth from "../../../Hooks/UseAuth/UseAuth";
 import Swal from "sweetalert2";
+import { GiFlexibleStar } from "react-icons/gi";
 
 const BookDetails = () => {
   const { id } = useParams();
   const { user } = UseAuth();
-  const navigate = useNavigate();
   const axiosSecure = useAxios();
   const { data: bookData = {} } = useQuery({
     queryKey: ["book"],
@@ -118,14 +118,19 @@ const BookDetails = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3 mb-8">
                   <button
-                    onClick={addToCart}
+                    onClick={() =>
+                      document.getElementById("my_modal_5").showModal()
+                    }
                     className="bg-gray-900 text-white px-6 py-3 rounded-full flex items-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer"
                   >
                     Add to cart
                     <BsArrowRight size={18} />
                   </button>
-                  <button className="border border-gray-300 p-3 rounded-full hover:bg-gray-100 transition-colors hover:text-black">
-                    <LuBookMarked size={20} />
+                  <button
+                    className="border border-gray-300 p-3 rounded-full hover:bg-gray-100 transition-colors hover:text-black tooltip cursor-pointer"
+                    data-tip="Give Rating"
+                  >
+                    <GiFlexibleStar size={20} />
                   </button>
                   <button className="border border-gray-300 p-3 rounded-full hover:bg-gray-100 transition-colors hover:text-black">
                     <BiShare size={20} />
@@ -164,6 +169,47 @@ const BookDetails = () => {
             </div>
           </div>
         </div>
+        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+          <div className="modal-box">
+            <fieldset className="fieldset rounded-box p-4">
+              <legend className="fieldset-legend">Book Details</legend>
+
+              <label className="label">Book</label>
+              <input
+                type="text"
+                className="input focus:outline-none w-full"
+                defaultValue={title}
+                readOnly
+              />
+
+              <label className="label">Price</label>
+              <input
+                type="text"
+                className="input focus:outline-none w-full"
+                defaultValue={`${price} taka`}
+                readOnly
+              />
+
+              <label className="label">Author</label>
+              <input
+                type="text"
+                className="input focus:outline-none w-full"
+                defaultValue={author}
+              />
+            </fieldset>
+            <div className="modal-action">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button
+                  onClick={addToCart}
+                  className="btn border-none bg-[#393E46] text-white w-full"
+                >
+                  Add To Cart
+                </button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
     </>
   );
