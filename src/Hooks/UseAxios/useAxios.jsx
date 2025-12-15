@@ -4,7 +4,7 @@ import UseAuth from "../UseAuth/UseAuth";
 import { useNavigate } from "react-router";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://librarian-server.vercel.app",
 });
 const useAxios = () => {
   const { user, logOut } = UseAuth();

@@ -33,7 +33,7 @@ const HomeSwiper = () => {
         <Swiper
           pagination={{ clickable: true }}
           loop={true}
-          // autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 3000 }}
           modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper h-full"
         >
