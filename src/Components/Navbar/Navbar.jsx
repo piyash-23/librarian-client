@@ -4,12 +4,11 @@ import UseAuth from "../../Hooks/UseAuth/UseAuth";
 import { Link, NavLink } from "react-router";
 import Swal from "sweetalert2";
 import { useTheme } from "../../Context/Theme/ThemeProvider";
-import useRole from "../../Hooks/UseRole/useRole";
 
 const Navbar = () => {
   const { user, logOut } = UseAuth();
-  const { role, isLoading } = useRole();
-  console.log(role);
+
+  // console.log(role);
   const { currentTheme, setTheme } = useTheme();
   const handleTheme = (e) => {
     const newTheme = e.target.checked ? "light" : "dark";
@@ -26,21 +25,11 @@ const Navbar = () => {
       <li>
         <NavLink to={"/be-a-librarian"}>Be a librarian</NavLink>
       </li>
-      {/* {user && (
+      {user && (
         <li>
           <NavLink to={"/dashboard"}>Dashboard</NavLink>
         </li>
-      )} */}
-      {user &&
-        (isLoading ? (
-          <span className="loading loading-spinner"></span>
-        ) : (
-          (role === "admin" || role === "librarian") && (
-            <li>
-              <NavLink to={"/dashboard"}>Dashboard</NavLink>
-            </li>
-          )
-        ))}
+      )}
     </>
   );
   const handleSignOut = () => {
@@ -157,12 +146,7 @@ const Navbar = () => {
                     <li>
                       <a>{user?.email}</a>
                     </li>
-                    <li>
-                      <Link to={"/cart"}>Go to cart</Link>
-                    </li>
-                    <li>
-                      <Link to={"/user-payment"}>Payment History</Link>
-                    </li>
+
                     <li>
                       <button onClick={handleSignOut}>Logout</button>
                     </li>

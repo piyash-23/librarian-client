@@ -13,12 +13,13 @@ const BookDetails = () => {
   const { id } = useParams();
   const { user } = UseAuth();
   const axiosSecure = useAxios();
-  const { data: bookData = {} } = useQuery({
-    queryKey: ["book"],
+  const { refetch, data: bookData = {} } = useQuery({
+    queryKey: ["book", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/books/${id}`);
       return res.data;
     },
+    enabled: !!id,
   });
   const {
     coverImage,
@@ -30,6 +31,12 @@ const BookDetails = () => {
     binding,
     sellerEmail,
   } = bookData;
+
+  const openMoal = () => {
+    refetch();
+    document.getElementById("cart").showModal();
+  };
+
   //   console.log(bookData);
   const addToCart = () => {
     if (!user) {
@@ -85,6 +92,60 @@ const BookDetails = () => {
   };
   return (
     <>
+      <dialog id="cart" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <fieldset className="fieldset rounded-box p-4">
+            <legend className="fieldset-legend">Book Details</legend>
+
+            <label className="label">Book</label>
+            <input
+              type="text"
+              className="input focus:outline-none w-full"
+              defaultValue={title}
+              readOnly
+            />
+
+            <label className="label">Price</label>
+            <input
+              type="text"
+              className="input focus:outline-none w-full"
+              defaultValue={price}
+              readOnly
+            />
+
+            <label className="label">Author</label>
+            <input
+              type="text"
+              className="input focus:outline-none w-full"
+              defaultValue={author}
+              readOnly
+            />
+            <label className="label">Your Name</label>
+            <input
+              type="text"
+              className="input focus:outline-none w-full"
+              defaultValue={user?.displayName}
+            />
+            <label className="label">Your Email</label>
+            <input
+              type="text"
+              className="input focus:outline-none w-full"
+              defaultValue={user?.email}
+            />
+          </fieldset>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                onClick={addToCart}
+                className="btn border-none bg-[#393E46] text-white w-full"
+              >
+                Add To Cart
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
       <div>
         <div className=" p-4 md:p-8 lg:p-12">
           <div className=" mx-auto rounded-lg shadow-lg overflow-hidden">
@@ -106,11 +167,11 @@ const BookDetails = () => {
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif mb-2">
                   {title}
                 </h1>
-                <p className="text-lg md:text-xl text-gray-600 mb-6">
+                <p className="text-lg md:text-xl text-gray-400 mb-6">
                   {author}
                 </p>
 
-                <p className="text-gray-700 mb-6 leading-relaxed">
+                <p className="text-gray-400 mb-6 leading-relaxed">
                   Get ready to uncover the dark secrets and betrayals in the
                   book. A thrilling adventure awaits you.
                 </p>
@@ -118,9 +179,7 @@ const BookDetails = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3 mb-8">
                   <button
-                    onClick={() =>
-                      document.getElementById("my_modal_5").showModal()
-                    }
+                    onClick={openMoal}
                     className="bg-gray-900 text-white px-6 py-3 rounded-full flex items-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer"
                   >
                     Add to cart
@@ -143,7 +202,7 @@ const BookDetails = () => {
                 {/* Description Section */}
                 <div className="mb-8">
                   <h2 className="text-xl font-semibold mb-3">Description</h2>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-4">
+                  <p className="text-gray-400 text-sm leading-relaxed mb-4">
                     {description}
                   </p>
                 </div>
@@ -169,47 +228,6 @@ const BookDetails = () => {
             </div>
           </div>
         </div>
-        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-          <div className="modal-box">
-            <fieldset className="fieldset rounded-box p-4">
-              <legend className="fieldset-legend">Book Details</legend>
-
-              <label className="label">Book</label>
-              <input
-                type="text"
-                className="input focus:outline-none w-full"
-                defaultValue={title}
-                readOnly
-              />
-
-              <label className="label">Price</label>
-              <input
-                type="text"
-                className="input focus:outline-none w-full"
-                defaultValue={`${price} taka`}
-                readOnly
-              />
-
-              <label className="label">Author</label>
-              <input
-                type="text"
-                className="input focus:outline-none w-full"
-                defaultValue={author}
-              />
-            </fieldset>
-            <div className="modal-action">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button
-                  onClick={addToCart}
-                  className="btn border-none bg-[#393E46] text-white w-full"
-                >
-                  Add To Cart
-                </button>
-              </form>
-            </div>
-          </div>
-        </dialog>
       </div>
     </>
   );

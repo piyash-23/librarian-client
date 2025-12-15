@@ -26,6 +26,7 @@ import ManageUser from "../Pages/Dashboard Pages/User Management/ManageUser";
 import ManageAllBooks from "../Pages/Dashboard Pages/Manage All Books/ManageAllBooks";
 import AdminRoute from "./AdminRoute";
 import LibAdmiRoute from "./LibAdmiRoute";
+import MyProfile from "../Pages/Dashboard Pages/My Profile/MyProfile";
 
 const Router = createBrowserRouter([
   // main layout
@@ -55,30 +56,6 @@ const Router = createBrowserRouter([
         hydrateFallbackElement: <FallbackEm></FallbackEm>,
         element: <BookDetails></BookDetails>,
       },
-      {
-        path: "cart",
-        element: (
-          <PrivateRoute>
-            <MyCart />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "payment-success",
-        Component: PaymentSuccess,
-      },
-      {
-        path: "payment-canceled",
-        Component: PaymentCancel,
-      },
-      {
-        path: "user-payment",
-        element: (
-          <PrivateRoute>
-            <UserPayHistory></UserPayHistory>
-          </PrivateRoute>
-        ),
-      },
     ],
   },
   // auth layout
@@ -101,9 +78,9 @@ const Router = createBrowserRouter([
   {
     path: "dashboard",
     element: (
-      <LibAdmiRoute>
+      <PrivateRoute>
         <DashboardLayout></DashboardLayout>
-      </LibAdmiRoute>
+      </PrivateRoute>
     ),
     hydrateFallbackElement: <FallbackEm />,
     children: [
@@ -113,32 +90,79 @@ const Router = createBrowserRouter([
       },
       {
         path: "post-book",
-        Component: PostBook,
+        element: (
+          <LibAdmiRoute>
+            <PostBook></PostBook>
+          </LibAdmiRoute>
+        ),
       },
       {
         path: "my-books",
-        Component: MyBooks,
+        element: (
+          <LibAdmiRoute>
+            <MyBooks></MyBooks>
+          </LibAdmiRoute>
+        ),
       },
       {
         path: "update-book/:id",
-        Component: UpdateBook,
+        element: (
+          <LibAdmiRoute>
+            <UpdateBook></UpdateBook>
+          </LibAdmiRoute>
+        ),
       },
-
+      {
+        path: "user-payment",
+        Component: UserPayHistory,
+      },
+      {
+        path: "cart",
+        Component: MyCart,
+      },
       {
         path: "approve",
-        Component: Approve,
+        element: (
+          <AdminRoute>
+            <Approve></Approve>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "my-profile",
+        Component: MyProfile,
+      },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-canceled",
+        Component: PaymentCancel,
       },
       {
         path: "my-orders",
-        Component: MyOrders,
+        element: (
+          <LibAdmiRoute>
+            <MyOrders></MyOrders>
+          </LibAdmiRoute>
+        ),
       },
       {
         path: "lib-payments",
-        Component: LibPayHistory,
+        element: (
+          <LibAdmiRoute>
+            <LibPayHistory></LibPayHistory>
+          </LibAdmiRoute>
+        ),
       },
       {
         path: "manage-users",
-        Component: ManageUser,
+        element: (
+          <AdminRoute>
+            <ManageUser></ManageUser>
+          </AdminRoute>
+        ),
       },
       {
         path: "manage-books",

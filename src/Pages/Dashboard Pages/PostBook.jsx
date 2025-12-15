@@ -279,6 +279,17 @@ const PostBook = () => {
                   <option value="english">English</option>
                 </select>
               </div>
+              {/* publish */}
+              <div>
+                <label className="label mt-3">Want To Publish the book?</label>
+                <select
+                  className=" focus:outline-none w-full px-4 py-3 text-black bg-transparent"
+                  {...register("publish", { required: true })}
+                >
+                  <option value="published">Published</option>
+                  <option value="Unpublished">Unpublished</option>
+                </select>
+              </div>
               {/*originalPrice */}
               <div>
                 <label className="label mt-3">original Price</label>

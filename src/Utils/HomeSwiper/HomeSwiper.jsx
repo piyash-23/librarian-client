@@ -3,17 +3,37 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import {
+  Autoplay,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../Hooks/UseAxios/useAxios";
 
 const HomeSwiper = () => {
+  const axiosSecure = useAxios();
+  const { data: books = [] } = useQuery({
+    queryKey: ["books"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/books");
+      return res.data;
+    },
+  });
+  console.log(books);
+  const toShow = books
+    .filter((books) => books.publish === "published")
+    .slice(0, 4);
+  console.log(toShow);
   return (
     <>
       <div className="h-[80vh]">
         <Swiper
           pagination={{ clickable: true }}
           loop={true}
-          autoplay={{ delay: 3000 }}
+          // autoplay={{ delay: 3000 }}
           modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper h-full"
         >
@@ -74,7 +94,7 @@ const HomeSwiper = () => {
 
           <SwiperSlide className="h-full">
             <div className="swiper-3 swipe rounded-lg flex items-center">
-              <div>
+              <div className="flex-1 w-[100%]">
                 <h1 className="text-4xl text-white font-extrabold">
                   Join Our Book Club & Save 20%
                 </h1>
@@ -89,6 +109,64 @@ const HomeSwiper = () => {
                   <button className="btn bg-transparent text-cyan-300 shadow-none mx-3 hover:bg-cyan-300 hover:text-black">
                     View Offers
                   </button>
+                </div>
+              </div>
+              <div className="max-w-sm mx-auto bg-white rounded-3xl">
+                <div className="w-full h-full flex justify-center items-center">
+                  <Swiper
+                    slidesPerView={1}
+                    centeredSlides={true}
+                    spaceBetween={30}
+                    loop={true}
+                    grabCursor={true}
+                    pagination={{
+                      clickable: true,
+                    }}
+                    modules={[Pagination]}
+                    className="h-full min-h-[400px]"
+                  >
+                    {toShow.map((bok) => (
+                      <SwiperSlide key={bok._id} className="h-full">
+                        <div className="max-w-sm mx-auto bg-white rounded-3xl shadow-lg overflow-hidden">
+                          {/* Image */}
+                          <div className="p-4">
+                            <div className="rounded-2xl overflow-hidden">
+                              <img
+                                src={bok.coverImage}
+                                alt="Destination"
+                                className="w-full h-56 object-cover"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Content */}
+                          <div className="px-6 pb-6">
+                            <h2 className="text-2xl font-semibold text-gray-900">
+                              {bok.title}
+                            </h2>
+
+                            {/* Price & Airport */}
+                            <div className="flex items-center justify-between mt-4 text-gray-600">
+                              <div className="flex items-center gap-2 text-sm">
+                                <span className="font-semibold text-gray-900">
+                                  taka {bok.price}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex items-center gap-4 mt-6">
+                              <button className="flex-1 bg-black text-white py-3 rounded-full text-sm font-medium hover:bg-gray-900 transition">
+                                <Link to={`/book-details/${bok._id}`}>
+                                  Get Book
+                                </Link>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 </div>
               </div>
             </div>

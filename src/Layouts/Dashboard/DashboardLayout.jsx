@@ -18,9 +18,11 @@ import MyOrders from "../../Pages/Dashboard Pages/My Orders/MyOrders";
 import { RiEBike2Fill } from "react-icons/ri";
 import LibPayHistory from "../../Pages/Dashboard Pages/Librarian Payment History/LibPayHistory";
 import ManageUser from "../../Pages/Dashboard Pages/User Management/ManageUser";
-import { FaUser } from "react-icons/fa";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
 import useRole from "../../Hooks/UseRole/useRole";
 import ManageAllBooks from "../../Pages/Dashboard Pages/Manage All Books/ManageAllBooks";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import MyProfile from "../../Pages/Dashboard Pages/My Profile/MyProfile";
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -47,47 +49,84 @@ const DashboardLayout = () => {
           <span className="is-drawer-close:hidden">Dashboard</span>
         </Link>
       </li>
-      <li>
-        <Link
-          to={"/dashboard/post-book"}
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="Publish Book"
-        >
-          <ImBook className="text-lg" />
-          <span className="is-drawer-close:hidden">Publish Book</span>
-        </Link>
-      </li>
-      <li>
-        <Link
-          to={"/dashboard/my-books"}
-          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="My Books"
-        >
-          <BiSolidUserBadge className="text-lg" />
-          <span className="is-drawer-close:hidden">My Books</span>
-        </Link>
-      </li>
 
       <li>
         <Link
-          to={"/dashboard/my-orders"}
+          to={"/dashboard/my-profile"}
           className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-          data-tip="My Orders"
+          data-tip="My Profile"
         >
-          <RiEBike2Fill className="text-lg" />
-          <span className="is-drawer-close:hidden">My Orders</span>
+          <FaUser className="text-lg" />
+          <span className="is-drawer-close:hidden">My Profile</span>
         </Link>
       </li>
       <li>
         <Link
-          to={"/dashboard/lib-payments"}
+          to={"/dashboard/cart"}
+          className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+          data-tip="My Cart"
+        >
+          <FaShoppingCart className="text-lg" />
+          <span className="is-drawer-close:hidden">My Cart</span>
+        </Link>
+      </li>
+      <li>
+        <Link
+          to={"/dashboard/user-payment"}
           className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
           data-tip="My Payments"
         >
-          <MdPayment className="text-lg" />
+          <FaMoneyCheckDollar className="text-lg" />
           <span className="is-drawer-close:hidden">My Payments</span>
         </Link>
       </li>
+
+      {(role === "admin" || role === "librarian") && (
+        <>
+          <li>
+            <Link
+              to={"/dashboard/post-book"}
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              data-tip="Publish Book"
+            >
+              <ImBook className="text-lg" />
+              <span className="is-drawer-close:hidden">Publish Book</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={"/dashboard/my-books"}
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              data-tip="My Books"
+            >
+              <BiSolidUserBadge className="text-lg" />
+              <span className="is-drawer-close:hidden">My Books</span>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to={"/dashboard/my-orders"}
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              data-tip="Librarian Orders"
+            >
+              <RiEBike2Fill className="text-lg" />
+              <span className="is-drawer-close:hidden">Librarian Orders</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={"/dashboard/lib-payments"}
+              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+              data-tip="Librarian Payments"
+            >
+              <MdPayment className="text-lg" />
+              <span className="is-drawer-close:hidden">Librarian Payments</span>
+            </Link>
+          </li>
+        </>
+      )}
+
       {role === "admin" && (
         <>
           {/* manage users */}
@@ -198,6 +237,7 @@ const DashboardLayout = () => {
             <LibPayHistory />
             <ManageUser />
             <ManageAllBooks />
+            <MyProfile />
           </Outlet>
         </div>
 

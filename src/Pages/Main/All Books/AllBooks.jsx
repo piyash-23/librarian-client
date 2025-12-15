@@ -12,6 +12,9 @@ const AllBooks = () => {
       return res.data;
     },
   });
+  const publishedBooks = allBooks.filter(
+    (books) => books.publish === "published"
+  );
   const [searched, setSearched] = useState("");
   const [sort, setSort] = useState("");
   const handleSearch = (e) => {
@@ -21,7 +24,7 @@ const AllBooks = () => {
     setSort(type);
   };
   const filteredBooks = useMemo(() => {
-    let books = allBooks.filter((book) =>
+    let books = publishedBooks.filter((book) =>
       book.title.toLowerCase().includes(searched.toLowerCase())
     );
 
@@ -34,7 +37,7 @@ const AllBooks = () => {
     }
 
     return books;
-  }, [allBooks, searched, sort]);
+  }, [searched, sort, publishedBooks]);
 
   //   console.log(allBooks);
   return (

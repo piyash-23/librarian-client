@@ -1,9 +1,10 @@
 import React from "react";
-import { BsGithub, BsTwitter } from "react-icons/bs";
+import { BsGithub } from "react-icons/bs";
 import { FaFacebook } from "react-icons/fa";
 import { LiaLinkedin } from "react-icons/lia";
 import Logo from "../Logo/Logo";
 import { Link } from "react-router";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -153,7 +154,7 @@ const Footer = () => {
                 href="#"
                 className="bg-gray-700 p-2.5 rounded hover:bg-gray-600 transition-colors duration-200"
               >
-                <BsTwitter className="w-5 h-5 text-white" />
+                <FaXTwitter className="w-5 h-5 text-white" />
               </a>
             </div>
           </div>

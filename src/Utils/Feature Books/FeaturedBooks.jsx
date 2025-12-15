@@ -13,7 +13,9 @@ const FeaturedBooks = () => {
       return res.data;
     },
   });
-  const toFeature = featured.slice(0, 8);
+  const toFeature = featured
+    .filter((books) => books.publish === "published")
+    .slice(0, 8);
   return (
     <>
       <div>

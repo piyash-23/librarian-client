@@ -1,10 +1,9 @@
 import React from "react";
 import useRole from "../Hooks/UseRole/useRole";
 import UseAuth from "../Hooks/UseAuth/UseAuth";
-import { useNavigate } from "react-router";
+import Forbidden from "../Components/Forbidden/Forbidden";
 
 const LibAdmiRoute = ({ children }) => {
-  const navigate = useNavigate();
   const { role, isLoading } = useRole();
   const { loading } = UseAuth();
   if (isLoading || loading) {
@@ -23,10 +22,10 @@ const LibAdmiRoute = ({ children }) => {
       </div>
     );
   }
-  if (role !== "librarian") {
-    return navigate("/");
+  if (role == "librarian" || role == "admin") {
+    return children;
   }
-  return children;
+  return <Forbidden />;
 };
 
 export default LibAdmiRoute;

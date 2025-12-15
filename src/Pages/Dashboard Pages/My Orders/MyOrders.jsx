@@ -47,7 +47,7 @@ const MyOrders = () => {
         const data = res.data;
         if (data.message === "shipped") {
           Swal.fire({
-            title: "Shipped",
+            title: "Delivered",
             icon: "success",
             draggable: true,
           });

@@ -17,11 +17,7 @@ const UpdateBook = () => {
     },
     enabled: !!id,
   });
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
   const afterSubmit = (data) => {
     // console.log(data);
     const swalWithBootstrapButtons = Swal.mixin({
@@ -232,6 +228,19 @@ const UpdateBook = () => {
                       >
                         <option value="bangla">Bangla</option>
                         <option value="english">English</option>
+                      </select>
+                    </div>
+                    {/* publish */}
+                    <div>
+                      <label className="label mt-3">
+                        Want To Publish the book?
+                      </label>
+                      <select
+                        className=" focus:outline-none w-full px-4 py-3 text-black bg-transparent"
+                        {...register("publish")}
+                      >
+                        <option value="published">Published</option>
+                        <option value="Unpublished">Unpublished</option>
                       </select>
                     </div>
                     {/*originalPrice */}

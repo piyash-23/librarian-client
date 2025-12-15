@@ -62,6 +62,7 @@ const MyBooks = () => {
                 <th>Seller Email</th>
                 <th>Price</th>
                 <th>Book Genre</th>
+                <th>Status</th>
                 <th>Stock</th>
                 <th>Action</th>
               </tr>
@@ -86,6 +87,7 @@ const MyBooks = () => {
                   <td>{book.sellerEmail}</td>
                   <td>{book.price} taka</td>
                   <td>{book.category}</td>
+                  <td>{book.publish}</td>
                   <td>{book.stock}</td>
                   <th>
                     <button
