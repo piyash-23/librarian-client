@@ -132,6 +132,14 @@ const BookDetails = () => {
               className="input focus:outline-none w-full"
               defaultValue={user?.email}
             />
+            <label className="label">Your Number</label>
+            <input type="tel" className="input focus:outline-none w-full" />
+            <label className="label">Your Address</label>
+            <input
+              type="text"
+              className="input focus:outline-none w-full"
+              required
+            />
           </fieldset>
           <div className="modal-action">
             <form method="dialog">

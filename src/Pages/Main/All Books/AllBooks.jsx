@@ -2,10 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import useAxios from "../../../Hooks/UseAxios/useAxios";
 import BookCard from "../../../Utils/Books/BookCard";
+import FallbackEm from "../../../Components/Fallback/FallbackEm";
+import NoResults from "../../../Components/No Results/NoResults";
 
 const AllBooks = () => {
   const axiosSecure = useAxios();
-  const { data: allBooks = [] } = useQuery({
+  const { isLoading, data: allBooks = [] } = useQuery({
     queryKey: ["allBooks"],
     queryFn: async () => {
       const res = await axiosSecure.get("/books");
@@ -39,11 +41,18 @@ const AllBooks = () => {
     return books;
   }, [searched, sort, publishedBooks]);
 
-  //   console.log(allBooks);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <FallbackEm />
+      </div>
+    );
+  }
+  console.log(allBooks);
   return (
     <>
       <div>
-        <div className="flex justify-between">
+        <div className="flex justify-around">
           <div>
             <input
               className="border px-2 py-3"
@@ -68,27 +77,33 @@ const AllBooks = () => {
               style={{ positionAnchor: "--anchor-1" }}
             >
               <li>
-                <a>
-                  <button onClick={() => handleSort("High")}>
-                    Price- High To Low
-                  </button>
-                </a>
+                <button
+                  onClick={() => handleSort("High")}
+                  className="btn btn-xs border-none"
+                >
+                  Price- High To Low
+                </button>
               </li>
               <li>
-                <a>
-                  <button onClick={() => handleSort("Low")}>
-                    Price- Low To High
-                  </button>
-                </a>
+                <button
+                  onClick={() => handleSort("Low")}
+                  className="btn btn-xs border-none"
+                >
+                  Price- Low To High
+                </button>
               </li>
             </ul>
           </div>
         </div>
         <div className="w-90 md:w-[100%] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {filteredBooks.map((book) => (
-              <BookCard key={book._id} book={book}></BookCard>
-            ))}
+            {filteredBooks.length > 0 ? (
+              filteredBooks.map((book) => (
+                <BookCard key={book._id} book={book} />
+              ))
+            ) : (
+              <NoResults />
+            )}
           </div>
         </div>
       </div>

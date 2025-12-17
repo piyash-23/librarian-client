@@ -3,10 +3,11 @@ import React from "react";
 import useAxios from "../../Hooks/UseAxios/useAxios";
 import BookCard from "../Books/BookCard";
 import { Link } from "react-router";
+import FallbackEm from "../../Components/Fallback/FallbackEm";
 
 const FeaturedBooks = () => {
   const axiosSecure = useAxios();
-  const { data: featured = [] } = useQuery({
+  const { isLoading, data: featured = [] } = useQuery({
     queryKey: ["feature"],
     queryFn: async () => {
       const res = await axiosSecure.get("/books");
@@ -16,6 +17,9 @@ const FeaturedBooks = () => {
   const toFeature = featured
     .filter((books) => books.publish === "published")
     .slice(0, 8);
+  if (isLoading) {
+    return <FallbackEm />;
+  }
   return (
     <>
       <div>

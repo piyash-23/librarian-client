@@ -2,7 +2,8 @@ import React from "react";
 import UseAuth from "../../../Hooks/UseAuth/UseAuth";
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../../Hooks/UseAxios/useAxios";
-import BookCard from "../../../Utils/Books/BookCard";
+import { MdOutlinePublishedWithChanges } from "react-icons/md";
+import { MdOutlineUnpublished } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router";
@@ -11,7 +12,11 @@ import Swal from "sweetalert2";
 const MyBooks = () => {
   const { user } = UseAuth();
   const axiosSecure = useAxios();
-  const { refetch, data: myBooks = [] } = useQuery({
+  const {
+    isLoading,
+    refetch,
+    data: myBooks = [],
+  } = useQuery({
     queryKey: ["myBooks", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/books?email=${user.email}`);
@@ -43,6 +48,78 @@ const MyBooks = () => {
       }
     });
   };
+  const handlePublish = (book) => {
+    const updateInfo = {
+      publish: "published",
+    };
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You Want to publish the book?!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Publish",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.patch(`/books/${book}`, updateInfo).then((res) => {
+          const data = res.data;
+          if (data.message === "book updated") {
+            refetch();
+            Swal.fire({
+              title: "Published!",
+              text: "Your book has been published.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+  const handleUnpublish = (book) => {
+    const updateInfo = {
+      publish: "Unpublished",
+    };
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You Want to unpublish the book?!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Unpublish",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.patch(`/books/${book}`, updateInfo).then((res) => {
+          const data = res.data;
+          if (data.message === "book updated") {
+            refetch();
+            Swal.fire({
+              title: "Unpublished!",
+              text: "Your book has been unpublished.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="animate-pulse flex flex-col items-center gap-4 w-60">
+          <div>
+            <div className="w-48 h-6 bg-slate-400 rounded-md" />
+            <div className="w-28 h-4 bg-slate-400 mx-auto mt-3 rounded-md" />
+          </div>
+          <div className="h-7 bg-slate-400 w-full rounded-md" />
+          <div className="h-7 bg-slate-400 w-full rounded-md" />
+          <div className="h-7 bg-slate-400 w-full rounded-md" />
+          <div className="h-7 bg-slate-400 w-1/2 rounded-md" />
+        </div>
+      </div>
+    );
+  }
   // console.log(myBooks);
   return (
     <>
@@ -104,6 +181,25 @@ const MyBooks = () => {
                     >
                       <FaEdit />
                     </Link>
+                    <button>
+                      {book.publish === "Unpublished" ? (
+                        <button
+                          onClick={() => handlePublish(book._id)}
+                          className="btn btn-xs bg-transparent border-none tooltip"
+                          data-tip="Publish Book"
+                        >
+                          <MdOutlinePublishedWithChanges />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleUnpublish(book._id)}
+                          className="btn btn-xs bg-transparent border-none tooltip"
+                          data-tip="Unpublish Book"
+                        >
+                          <MdOutlineUnpublished />
+                        </button>
+                      )}
+                    </button>
                   </th>
                 </tr>
               ))}

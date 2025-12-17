@@ -11,10 +11,11 @@ const MyProfile = () => {
   const navigate = useNavigate();
   const { role } = useRole();
   const { user, updateUserProfile } = UseAuth();
+  // console.log(user);
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    const { name, email, photo } = data;
+    const { name, email, photo, number } = data;
     // console.log(photo);
     const image = photo[0];
     const options = {
@@ -28,6 +29,7 @@ const MyProfile = () => {
       email: email,
       displayName: name,
       photoURL: photoURL,
+      phoneNumber: number,
     };
     // console.log(updatedProfile);
     try {
@@ -51,6 +53,7 @@ const MyProfile = () => {
           />
           <h2 className="mt-4 text-xl font-semibold">{user.displayName}</h2>
           <p className="text-sm text-gray-500">{role}</p>
+          <p className="text-sm text-gray-500">User ID: {user?.uid}</p>
         </div>
 
         {/* Info */}
@@ -111,6 +114,15 @@ const MyProfile = () => {
                   type="email"
                   defaultValue={user?.email}
                   {...register("email")}
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Number</label>
+                <input
+                  type="tel"
+                  defaultValue={user?.phoneNumber}
+                  {...register("number")}
                   className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                 />
               </div>
