@@ -81,6 +81,34 @@ const Login = () => {
         }
       });
   };
+  const handleDemoAdminLogin = () => {
+    const adminEmail = import.meta.env.VITE_adminEmail;
+    const adminPassword = import.meta.env.VITE_adminPass;
+
+    signInWithMail(adminEmail, adminPassword)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+
+        Swal.fire({
+          icon: "success",
+          title: "Logged in as Demo Admin",
+          text: "Welcome Admin",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        navigate(location?.state || "/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Demo Admin Login Failed",
+          text: error.message,
+        });
+      });
+  };
+
   return (
     <>
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -233,12 +261,20 @@ const Login = () => {
               Get exclusive access to unlimited benefits. Sign up now and start
               exploring our new world.
             </p>
-            <Link
-              to={"/register"}
-              className="bg-blue-600 text-white px-10 py-3 rounded-lg hover:bg-blue-700"
-            >
-              Sign Up
-            </Link>
+            <div>
+              <Link
+                to={"/register"}
+                className="bg-blue-600 text-white px-10 py-3 rounded-lg hover:bg-blue-700"
+              >
+                Sign Up
+              </Link>
+              <button
+                onClick={handleDemoAdminLogin}
+                className="w-full mt-3 bg-blue-600 hover:bg-blue-700 cursor-pointer text-white font-semibold py-3 rounded-lg"
+              >
+                Demo Login as Admin
+              </button>
+            </div>
           </div>
         </div>
       </div>

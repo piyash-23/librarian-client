@@ -1,13 +1,23 @@
 import React, { useMemo } from "react";
-import { CiDeliveryTruck } from "react-icons/ci";
-import { FaCommentDollar, FaUser } from "react-icons/fa";
-import { FaCartFlatbed } from "react-icons/fa6";
-import { IoBookSharp } from "react-icons/io5";
-import { MdOutlineUnpublished } from "react-icons/md";
+
 import useAxios from "../../../../Hooks/UseAxios/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
-
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  LineChart,
+  Line,
+} from "recharts";
+const COLORS = ["#3b82f6", "#22c55e", "#ef4444", "#f97316"];
 const AdminDash = () => {
   const axiosSecure = useAxios();
   const { data: allBooks = [] } = useQuery({
@@ -47,48 +57,144 @@ const AdminDash = () => {
       .filter((p) => p.paymentStatus === "paid")
       .reduce((sum, p) => sum + p.price, 0);
   }, [allPayments]);
+
+  // 1️⃣ Books by Category (Bar)
+  const bookCategoryData = useMemo(() => {
+    const map = {};
+
+    allBooks.forEach((b) => {
+      const category = b.category || "Unknown";
+      map[category] = (map[category] || 0) + 1;
+    });
+
+    return Object.keys(map).map((key) => ({
+      name: key,
+      value: map[key],
+    }));
+  }, [allBooks]);
+
+  // 2️⃣ Order vs Delivered (Bar)
+  const orderData = [
+    { name: "Orders", value: order.length },
+    { name: "Delivered", value: allPayments.length },
+  ];
+
+  // 3️⃣ Revenue Line Chart
+  const revenueData = useMemo(() => {
+    return allPayments
+      .filter((p) => p.paymentStatus === "paid")
+      .map((p, index) => ({
+        name: `Order ${index + 1}`,
+        revenue: p.price,
+      }));
+  }, [allPayments]);
+
+  // 4️⃣ Published vs Unpublished (Pie)
+  const publishData = useMemo(() => {
+    const unpublished = allBooks.filter(
+      (b) => b.publish === "Unpublished"
+    ).length;
+    const published = allBooks.length - unpublished;
+
+    return [
+      { name: "Published", value: published },
+      { name: "Unpublished", value: unpublished },
+    ];
+  }, [allBooks]);
+
+  // 5️⃣ User Chart (Pie)
+  const userData = [{ name: "Users", value: users.length }];
+
   return (
     <>
       <div>
         <div>
-          <div className="grid grid-cols-2 md:grid-cols-3 my-3 gap-4 justify-center items-center">
-            <div className="bg-slate-800 text-white px-3 py-4 rounded-lg  max-w-[300px]">
-              <IoBookSharp className="text-7xl text-[gray]" />
-              <p className="font-bold text-3xl md:text-4xl">
-                {allBooks.length} Books
-              </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Books by Category */}
+            <div className="bg-white p-5 rounded-lg shadow">
+              <h2 className="text-lg font-bold mb-4">Books by Category</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={bookCategoryData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#3b82f6" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
-            <div className="bg-slate-800 text-white px-3 py-4 rounded-lg max-w-[300px]">
-              <FaCartFlatbed className="text-7xl text-[gray]" />
-              <p className="font-bold text-3xl md:text-4xl">
-                {order.length} Orders{" "}
-              </p>
+
+            {/* Orders vs Delivered */}
+            <div className="bg-white p-5 rounded-lg shadow">
+              <h2 className="text-lg font-bold mb-4">Orders & Delivered</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={orderData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#22c55e" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
-            <div className="bg-slate-800 text-white px-3 py-4 rounded-lg max-w-[300px]">
-              <CiDeliveryTruck className="text-7xl text-[gray]" />
-              <p className="font-bold text-3xl md:text-4xl">
-                {allPayments.length} Delivered{" "}
-              </p>
+
+            {/* Revenue Line Chart */}
+            <div className="bg-white p-5 rounded-lg shadow">
+              <h2 className="text-lg font-bold mb-4">Revenue Flow</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={revenueData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#f97316"
+                    strokeWidth={3}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-            <div className="bg-slate-800 text-white px-3 py-4 rounded-lg max-w-[300px]">
-              <FaCommentDollar className="text-7xl text-[gray]" />
-              <p className="font-bold text-3xl md:text-4xl">
-                {totalRevenue} Total Sale{" "}
-              </p>
+
+            {/* Published vs Unpublished */}
+            <div className="bg-white p-5 rounded-lg shadow">
+              <h2 className="text-lg font-bold mb-4">Publish Status</h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={publishData}
+                    dataKey="value"
+                    nameKey="name"
+                    outerRadius={100}
+                    label
+                  >
+                    {publishData.map((_, i) => (
+                      <Cell key={i} fill={COLORS[i]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
-            <div className="bg-slate-800 text-white px-3 py-4 rounded-lg max-w-[300px]">
-              <MdOutlineUnpublished className="text-7xl text-[gray]" />
-              <p className="font-bold text-3xl md:text-4xl">
-                {Unpublished.length} Unpublished books{" "}
-              </p>
-            </div>
-            <div className="bg-slate-800 text-white px-3 py-4 rounded-lg max-w-[300px]">
-              <FaUser className="text-7xl text-[gray]" />
-              <p className="font-bold text-3xl md:text-4xl">
-                {users.length} users{" "}
-              </p>
+
+            {/* Users Pie */}
+            <div className="bg-white p-5 rounded-lg shadow md:col-span-2">
+              <h2 className="text-lg font-bold mb-4">Total Users</h2>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={userData}
+                    dataKey="value"
+                    nameKey="name"
+                    outerRadius={80}
+                    fill="#6366f1"
+                    label
+                  />
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
           </div>
+
           <div>
             <div>
               <div className="overflow-x-auto">

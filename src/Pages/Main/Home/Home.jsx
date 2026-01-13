@@ -5,8 +5,16 @@ import Coverage from "../../../Utils/Coverage/Coverage";
 import WhyUs from "../../../Utils/WhyUs/WhyUs";
 import Genres from "../../../Utils/Genre/Genres";
 import FeaturedBooks from "../../../Utils/Feature Books/FeaturedBooks";
+import SubscribeCTA from "../../../Utils/NewsLetter/Newsletter";
 
-const secitons = [HomeSwiper, FeaturedBooks, Coverage, Genres, WhyUs];
+const secitons = [
+  HomeSwiper,
+  FeaturedBooks,
+  Coverage,
+  Genres,
+  WhyUs,
+  SubscribeCTA,
+];
 
 const Home = () => {
   return (

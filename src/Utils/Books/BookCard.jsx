@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router";
 
 const BookCard = ({ book }) => {
@@ -6,77 +7,97 @@ const BookCard = ({ book }) => {
     book;
   return (
     <>
-      <Link to={`/book-details/${_id}`} className="mt-7">
-        <div className="flex justify-center items-center p-2 bg-blue-500 rounded-2xl">
-          <div className="max-w-4xl w-full mx-auto bg-primary rounded-xl shadow-2xl overflow-hidden md:flex">
-            {/* Left Side: Image and Tag */}
-            <div className="md:w-1/2 p-4 flex flex-col justify-between">
-              <span className="text-sm font-semibold  mb-2 py-1 px-3 text-secondary bg-gray-400 rounded-full w-fit">
-                #{category}
-              </span>
-              <div className="aspect-w-1 aspect-h-1">
-                <img
-                  className="aspect-3/2 object-cover rounded-lg"
+      <div>
+        <div className=" flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full max-w-md"
+          >
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              {/* Image Container */}
+              <div className="relative h-96 overflow-hidden">
+                <motion.img
+                  initial={{ scale: 1.2 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.8 }}
                   src={coverImage}
-                  alt="Close-up view of the Moon's surface"
+                  alt={title}
+                  className="w-full h-full object-cover"
                 />
-              </div>
-            </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/80 to-transparent" />
 
-            {/* Right Side: Content */}
-            <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-between">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-secondary mb-4 leading-tight">
-                  {title}
-                </h2>
-                <p className="text-gray-600 mb-6 text-base">
-                  {shortDescription.length === 30
-                    ? shortDescription.slice(0, 29)
-                    : shortDescription}
-                </p>
-                <span className="text-sm font-semibold  mb-2 py-1 px-3 bg-gray-400 text-secondary rounded-full w-fit">
-                  {price} taka
-                </span>
-              </div>
-
-              {/* Author and Actions */}
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center">
-                  <div>
-                    <p className="text-sm font-medium text-secondary">
-                      By **{author}**
-                    </p>
-                  </div>
-                </div>
-
-                {/* Action Icons */}
-                <div className="flex space-x-2">
-                  <button
-                    aria-label="More options"
-                    className="p-2 text-gray-600 hover:text-gray-800 rounded-full transition duration-150"
+                {/* Content Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <motion.h1
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    className="text-3xl font-bold mb-2"
                   >
-                    {/* A simplified SVG for the three dots icon */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
+                    {title}
+                  </motion.h1>
+
+                  <motion.p
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
+                    className="text-sm text-gray-200 mb-4 flex items-center gap-1"
+                  >
+                    <span>📍</span> {author}
+                  </motion.p>
+
+                  {/* Property Details */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                    className="flex items-center gap-6 mb-6 text-sm"
+                  >
+                    <div className="flex items-center gap-2">
+                      {/* <Maximize2 size={18} className="text-gray-200" /> */}
+                      <span>
+                        Category:{" "}
+                        <span className="font-semibold">{category}</span>
+                      </span>
+                    </div>
+                  </motion.div>
+
+                  {/* Action Buttons */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.5 }}
+                    className="flex items-center gap-4"
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 font-bold text-xl"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                      />
-                    </svg>
-                  </button>
+                      {price} taka
+                    </motion.div>
+
+                    <Link to={`/book-details/${_id}`}>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.02,
+                          boxShadow: "0 10px 40px rgba(255,255,255,0.3)",
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 bg-white text-gray-900 rounded-full px-6 py-3 font-semibold hover:bg-gray-50 transition-colors cursor-pointer"
+                      >
+                        See More
+                      </motion.button>
+                    </Link>
+                  </motion.div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </Link>
+      </div>
     </>
   );
 };

@@ -44,9 +44,9 @@ const Navbar = () => {
     });
   };
   return (
-    <div>
+    <div className="sticky top-0 z-[999]">
       <div>
-        <div className="navbar relative z-50 py-4 pb-5">
+        <div className="navbar relative z-50 py-4 pb-5 bg-secondary text-primary">
           <div className="navbar-start">
             <div className="dropdown">
               <div
